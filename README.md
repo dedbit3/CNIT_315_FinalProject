@@ -13,3 +13,11 @@ NOTES:
 
 RESOURCES:
 https://vx-underground.org
+
+TODO:
+- encryption function
+- compile list of banned folders
+- filesystem spidering function
+- decryption function
+- research openssl libraries OR crypto++
+- windows defender bypass?
