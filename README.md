@@ -13,6 +13,9 @@ NOTES:
 
 RESOURCES:
 https://vx-underground.org
+CODE FORMATTING: 
+https://medium.com/@kasra_mp/c-code-formatting-your-path-to-cleaner-more-professional-code-efdef2050879
+(Follow K&R sytle)
 
 TODO:
 - encryption function
