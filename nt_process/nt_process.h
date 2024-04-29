@@ -48,20 +48,6 @@ typedef NTSTATUS (NTAPI* NtOpenProcess) (
 	_In_opt_ PCLIENT_ID ClientId
 );
 
-typedef NTSTATUS(NTAPI* NtCreateThreadEx) (
-	_Out_ PHANDLE ThreadHandle,
-	_In_ ACCESS_MASK DesiredAccess,
-	_In_opt_ POBJECT_ATTRIBUTES ObjectAttributes,
-	_In_ HANDLE ProcessHandle,
-	_In_ PVOID StartRoutine,
-	_In_opt_ PVOID Argument,
-	_In_ ULONG CreateFlags,
-	_In_ SIZE_T ZeroBits,
-	_In_ SIZE_T StackSize,
-	_In_ SIZE_T MaximumStackSize,
-	_In_opt_ PPS_ATTRIBUTE_LIST AttributeList
-);
-
 typedef NTSTATUS(NTAPI* NtClose) (
 	_In_ _Post_ptr_invalid_ HANDLE Handle
 );
