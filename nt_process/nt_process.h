@@ -1,14 +1,15 @@
+/* INCLUDES */
 #pragma once
 #include <windows.h>
 #include <stdio.h>
 
+/* DEFINITIONS */
 #define STATUS_SUCCESS (NTSTATUS)0x00000000L
 #define okay(msg, ...) printf("[+] " msg "\n", ##__VA_ARGS__)
 #define info(msg, ...) printf("[i] " msg "\n", ##__VA_ARGS__)
 #define warn(msg, ...) printf("[-] " msg "\n", ##__VA_ARGS__)
 
-/* defining structures...*/
-
+/* STRUCTS */
 typedef struct _OBJECT_ATTRIBUTES {
 	ULONG Length;
     	VOID* RootDirectory;
@@ -38,9 +39,7 @@ typedef struct _PS_ATTRIBUTE_LIST {
 	PS_ATTRIBUTE Attributes[1];
 } PS_ATTRIBUTE_LIST, *PPS_ATTRIBUTE_LIST;
 
-
-/* function prototype declarations...*/
-
+/* PROTOTYPES */
 typedef NTSTATUS (NTAPI* NtOpenProcess) (
 	_Out_ PHANDLE ProcessHandle,
 	_In_ ACCESS_MASK DesiredAccess,
@@ -51,4 +50,3 @@ typedef NTSTATUS (NTAPI* NtOpenProcess) (
 typedef NTSTATUS(NTAPI* NtClose) (
 	_In_ _Post_ptr_invalid_ HANDLE Handle
 );
-
