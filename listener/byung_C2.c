@@ -75,8 +75,9 @@ int main(int argc, char **argv) {
   strcpy(executeBuf, execute);
 
   // display user message
-  printf("\n   *Byung C2 Server*"); 
-  printf("\n\n[i] Listening for Victim connections...");
+  printf("\n   *Byung C2 Server*\n"); 
+  printf("\n[i] Listening for Victim connnections...\n");
+  fflush(stdout);
 
   /* MAIN PROGRAM LOOP */
   for(;;) {
