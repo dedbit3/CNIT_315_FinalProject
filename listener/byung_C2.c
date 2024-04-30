@@ -131,6 +131,7 @@ int main(int argc, char **argv) {
 
     // update
     printf("\n\nSuccess! Victim Machine infected");
+    fflush(stdout);
 
     /* CLOSE CLIENT CONNECTION */
     fclose(wStream);
